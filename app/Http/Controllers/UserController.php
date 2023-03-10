@@ -100,4 +100,94 @@ class UserController extends Controller
         return Auth()->User();
     }
 
+    public function get_user_one($id){
+
+        try {
+
+        $user = User::find($id);
+        
+            $success = true;
+            $message = "ສຳເລັດ";
+
+
+        } catch (\Illuminate\Database\QueryException $ex) {
+            $success = false;
+            $user = null;
+            $message = $ex->getMessage();
+        }
+
+        $response = [
+            'user' => $user,
+            'success' => $success,
+            'message' => $message,
+        ];
+        return response()->json($response);
+
+    }
+
+
+    public function update_user($id,Request $request){
+        try {
+
+                $user = User::find($id);
+                
+                $user->update([
+                    'name' => $request->name,
+                    'last_name' => $request->last_name,
+                    'gender' => $request->gender,
+                    // 'password' => Hash::make($request->password),
+                    // 'image' => $generated_new_name,
+                    // 'tel' => $request->tel,
+                    'birth_day' => $request->birth_day,
+                    'add_village' => $request->add_village,
+                    'add_city' => $request->add_city,
+                    'add_province' => $request->add_province,
+                    'add_detail' => $request->add_detail,
+                    'email' => $request->email,
+                    'web' => $request->web,
+                    'job' => $request->job,
+                    'job_type' => $request->job_type,
+                ]);
+
+
+                $success = true;
+                $message = "ສຳເລັດ";
+    
+    
+            } catch (\Illuminate\Database\QueryException $ex) {
+                $success = false;
+                $user = null;
+                $message = $ex->getMessage();
+            }
+    
+            $response = [
+                // 'user' => $user,
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+    }
+
+    public function delete_user($id){
+        try {
+
+                $user = User::find($id);
+                $user->delete();
+            
+                $success = true;
+                $message = "ລຶບຂໍ້ມູນສຳເລັດ";
+    
+    
+            } catch (\Illuminate\Database\QueryException $ex) {
+                $success = false;
+                $message = $ex->getMessage();
+            }
+    
+            $response = [
+                'success' => $success,
+                'message' => $message,
+            ];
+            return response()->json($response);
+    }
+
 }

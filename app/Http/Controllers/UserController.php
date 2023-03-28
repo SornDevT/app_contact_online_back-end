@@ -18,7 +18,12 @@ class UserController extends Controller
 
     public function get_all_user(){
         $user = User::all();
-        return $user;
+        // return $user;
+
+        $response = [
+            'user' => $user,
+        ];
+        return response()->json($response);
     }
 
     public function register(Request $request){
